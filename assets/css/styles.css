@@ -533,6 +533,10 @@ main { min-height: 62vh; }
 }
 
 @media (max-width: 760px) {
+  /* Phones: widen the side gutters so text and cards aren't hard against
+     the screen edge. .wrap and the mobile nav both read --gutter. */
+  :root { --gutter: 26px; }
+
   .nav {
     position: absolute; top: 68px; left: 0; right: 0;
     flex-direction: column; align-items: stretch; gap: 0;
@@ -547,7 +551,7 @@ main { min-height: 62vh; }
 }
 
 @media (max-width: 560px) {
-  .video-grid { grid-template-columns: 1fr; max-width: 360px; }
+  .video-grid { grid-template-columns: 1fr; max-width: 360px; margin-inline: auto; }
   .field-row { grid-template-columns: 1fr; }
   .stats { grid-template-columns: 1fr; }
   .stats li + li { border-left: 0; padding-left: 0; border-top: 1px solid var(--silver-2); }
