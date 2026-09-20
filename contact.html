@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Evelyn</title>
+<meta name="description" content="Book restaurant video in New York City. Tell me your restaurant, the service you want and your preferred date.">
+<meta property="og:title" content="Contact — Evelyn">
+<meta property="og:description" content="Book restaurant video in New York City. Tell me your restaurant, the service you want and your preferred date.">
+<meta property="og:image" content="https://crossur.github.io/Evelyn/assets/img/og-image.jpg">
+<meta property="og:url" content="https://crossur.github.io/Evelyn/contact.html">
+<meta property="og:site_name" content="Evelyn">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://crossur.github.io/Evelyn/contact.html">
+<link rel="icon" href="assets/img/icon/favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/img/icon/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+<script>
+  // Apply the saved theme before first paint so the page never flashes
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="assets/img/icon/brand.png" alt="" width="28" height="28">
+      <span class="brand-name">Evelyn</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="index.html">About</a>
+      <a href="work.html">Work</a>
+      <a href="rates.html">Rates</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+
+    <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>
+      </svg>
+    </button>
+
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="wrap page-head">
+    <span class="label"><span class="num">04</span>Contact</span>
+    <h1>Let's get your food on camera.</h1>
+  </section>
+
+  <section class="wrap section-tight">
+    <div class="contact-grid">
+
+      <div class="reveal">
+        <p class="muted">
+          Tell me about your restaurant and what you're after. I reply to every
+          enquiry within two working days &mdash; usually much sooner.
+        </p>
+        <ul class="contact-details">
+          <li>
+            <span class="contact-label">Email</span>
+            <a href="mailto:rinawydmgmt@gmail.com">rinawydmgmt@gmail.com</a>
+          </li>
+          <li>
+            <span class="contact-label">Phone</span>
+            <a href="tel:+17322134338">732-213-4338</a>
+          </li>
+          <li>
+            <span class="contact-label">Based in</span>
+            <span>New York City &middot; all five boroughs</span>
+          </li>
+        </ul>
+      </div>
+
+      <form class="contact-form reveal" id="contactForm" novalidate>
+        <div class="field">
+          <label for="restaurant">Restaurant name <span class="req">*</span></label>
+          <input type="text" id="restaurant" name="restaurant" required autocomplete="organization" placeholder="The Copper Kettle">
+          <p class="error" data-error-for="restaurant"></p>
+        </div>
+
+        <div class="field">
+          <label for="service">Service you're interested in <span class="req">*</span></label>
+          <select id="service" name="service" required>
+            <option value="" disabled selected>Choose a service</option>
+            <option>Social Media Management &mdash; $800/month</option>
+            <option>Content Creation Package &mdash; $300</option>
+            <option>Not sure yet &mdash; let's talk</option>
+          </select>
+          <p class="error" data-error-for="service"></p>
+        </div>
+
+        <div class="field">
+          <label for="date">Desired date of collaboration <span class="req">*</span></label>
+          <input type="date" id="date" name="date" required>
+          <p class="error" data-error-for="date"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@restaurant.com">
+            <p class="error" data-error-for="email"></p>
+          </div>
+          <div class="field">
+            <label for="phone">Phone number <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="555-123-4567">
+            <p class="error" data-error-for="phone"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">Anything else <span class="optional">(optional)</span></label>
+          <textarea id="message" name="message" rows="3" placeholder="The dishes, the vibe, the launch you're planning&hellip;"></textarea>
+        </div>
+
+        <!-- Spam honeypot: hidden from people, catches bots -->
+        <div class="hp" aria-hidden="true">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" class="btn btn-block" id="submitBtn">
+          <span class="btn-label">Send enquiry</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        <p class="fineprint">Your details come straight to my inbox. Never shared, never a mailing list.</p>
+      </form>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>&copy; <span id="year">2026</span> Evelyn &middot; Restaurant video &middot; New York City</p>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="index.html">About</a>
+      <a href="work.html">Work</a>
+      <a href="rates.html">Rates</a>
+      <a href="contact.html">Contact</a>
+      <a href="mailto:rinawydmgmt@gmail.com">rinawydmgmt@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

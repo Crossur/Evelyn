@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+node_modules/
+
+# untouched camera masters — kept locally, not pushed to GitHub
+assets/videos/originals/
