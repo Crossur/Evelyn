@@ -221,7 +221,7 @@ a:hover { text-decoration-color: currentColor; }
   :root:not([data-theme="light"]):not([data-theme="dark"]) .theme-toggle .moon { display: block; }
 }
 
-.nav-toggle { display: none; flex-direction: column; gap: 4px; }
+.nav-toggle { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
 .nav-toggle span { display: block; width: 16px; height: 1.5px; background: var(--ink); transition: transform .2s ease, opacity .2s ease; }
 .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
@@ -230,12 +230,12 @@ a:hover { text-decoration-color: currentColor; }
 /* ---------- page shell ---------- */
 main { min-height: 62vh; }
 
-.page-head { padding: clamp(3rem, 8vw, 6rem) 0 clamp(1.5rem, 3vw, 2.5rem); }
+.page-head { padding-block: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 3vw, 2.5rem); }
 .page-head h1 { max-width: 16ch; }
 .page-head .lede { font-size: clamp(1rem, 1.6vw, 1.15rem); color: var(--graphite); max-width: 54ch; margin-top: 1.4rem; }
 
-.section { padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
-.section-tight { padding: clamp(1.5rem, 4vw, 3rem) 0; }
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section-tight { padding-block: clamp(1.5rem, 4vw, 3rem); }
 
 /* next-page footer link */
 .next-up {
@@ -257,7 +257,7 @@ main { min-height: 62vh; }
    photo used to occupy, and both sit on the same baseline. The stats band is
    part of this section, so its own border does the separating instead of
    another slab of padding. */
-.about-hero { padding: clamp(2.75rem, 6vw, 5rem) 0 0; }
+.about-hero { padding-block: clamp(2.75rem, 6vw, 5rem) 0; }
 .about-hero > .label { margin-bottom: clamp(1.4rem, 3vw, 2.25rem); }
 
 .about-hero-grid {
