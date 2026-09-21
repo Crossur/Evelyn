@@ -77,15 +77,21 @@ Things worth knowing:
 - **The free tier is 50 submissions a month.** Formspree emails you when you
   approach it. Past that, submissions are held rather than delivered.
 - **Formspree asks you to confirm the form the first time it receives a
-  submission.** Send one test enquiry through the live site and click the
-  confirmation link, or real enquiries may sit unconfirmed.
+  submission.** Send one test inquiry through the live site and click the
+  confirmation link, or real inquiries may sit unconfirmed.
 - **Spam.** The form has a hidden honeypot field that silently drops bots
   before anything is sent. Formspree has its own filtering on top.
+- **Rate limit.** After a send, the button counts down and refuses another for
+  60 seconds, with a cap of 3 sends per 15 minutes. The timestamps live in the
+  visitor's browser (`localStorage`), so a refresh doesn't reset it. Tune the
+  numbers in the `RATE` block in `main.js`. This stops double-clicks and casual
+  abuse; it is not security, since anyone can clear their own storage — the
+  real quota is enforced by Formspree.
 - **The endpoint is public**, visible in the JavaScript. That is normal and
   safe — it is submit-only and cannot read your submissions.
 
 If the network call fails, the form keeps what the visitor typed, shows an
-error, and points them at `rinawydmgmt@gmail.com` so the enquiry is not lost.
+error, and points them at `rinawydmgmt@gmail.com` so the inquiry is not lost.
 
 ### Switching providers
 
@@ -111,7 +117,7 @@ written; only `CONFIG` changes.
 | Colours & type | `assets/css/styles.css` — the `:root` block |
 
 If you change a package name in `rates.html`, change the matching `<option>` in
-`contact.html` too — the "Enquire" buttons pass the name across in the URL
+`contact.html` too — the "Inquire" buttons pass the name across in the URL
 (`contact.html?service=Social+Media+Management`) and the form pre-selects it
 on arrival.
 

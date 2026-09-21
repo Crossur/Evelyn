@@ -8,7 +8,7 @@
    ─────────────────────────────────────────────────────────
 
    The contact form is frontend-only: there is no server of
-   your own. Pick ONE option, paste your key in, and enquiries
+   your own. Pick ONE option, paste your key in, and inquiries
    arrive in your email inbox.
 
    OPTION A — Formspree  (https://formspree.io)
@@ -32,7 +32,7 @@ const CONFIG = {
   ENDPOINT:   "https://formspree.io/f/mgavaygo",     // Formspree only
   ACCESS_KEY: "YOUR-WEB3FORMS-ACCESS-KEY",           // Web3Forms only
   EMAIL:      "rinawydmgmt@gmail.com",               // your inbox
-  SUBJECT:    "New collaboration enquiry from your website"
+  SUBJECT:    "New collaboration inquiry from your website"
 };
 
 const $  = (sel, root = document) => root.querySelector(sel);
@@ -211,7 +211,7 @@ if (form) {
   // You can't be booked in the past
   dateInput.min = new Date().toISOString().split("T")[0];
 
-  // Arriving from a "Enquire" button on the rates page? Pre-select that package.
+  // Arriving from an "Inquire" button on the rates page? Pre-select that package.
   const wanted = new URLSearchParams(window.location.search).get("service");
   if (wanted) {
     const match = [...serviceSelect.options].find((o) =>
@@ -264,7 +264,7 @@ if (form) {
   const sending = (on) => {
     submitBtn.disabled = on;
     submitBtn.classList.toggle("is-sending", on);
-    $(".btn-label", submitBtn).textContent = on ? "Sending" : "Send enquiry";
+    $(".btn-label", submitBtn).textContent = on ? "Sending" : "Send inquiry";
   };
 
   const prettyDate = (value) => {
@@ -335,6 +335,74 @@ if (form) {
     throw new Error("unconfigured");
   }
 
+  /* ---------------------------------------------------------------
+     Rate limit.
+
+     Stops accidental double-sends and casual abuse: one send per minute,
+     and at most 3 in a 15-minute window. Timestamps live in localStorage
+     so a page refresh doesn't reset it.
+
+     This is a courtesy limit inside the visitor's own browser, not
+     security — anyone determined can clear storage. Formspree enforces
+     the real quota server-side.
+     --------------------------------------------------------------- */
+  const RATE = {
+    cooldownMs:   60 * 1000,        // between one send and the next
+    maxPerWindow: 3,
+    windowMs:     15 * 60 * 1000,
+    key:          "inquiry-sends"
+  };
+
+  const recentSends = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(RATE.key) || "[]");
+      if (!Array.isArray(saved)) return [];
+      return saved.filter((t) => Number.isFinite(t) && Date.now() - t < RATE.windowMs);
+    } catch (e) { return []; }        // private mode, blocked storage
+  };
+
+  const recordSend = () => {
+    try { localStorage.setItem(RATE.key, JSON.stringify([...recentSends(), Date.now()])); } catch (e) {}
+  };
+
+  // How long the visitor must wait, in ms. 0 means they can send now.
+  function waitRemaining() {
+    const sends = recentSends();
+    if (!sends.length) return 0;
+    if (sends.length >= RATE.maxPerWindow) {
+      return Math.max(0, Math.min(...sends) + RATE.windowMs - Date.now());
+    }
+    return Math.max(0, Math.max(...sends) + RATE.cooldownMs - Date.now());
+  }
+
+  let cooldownTimer = null;
+
+  function paintCooldown() {
+    const ms = waitRemaining();
+    const label = $(".btn-label", submitBtn);
+    if (ms <= 0) {
+      clearInterval(cooldownTimer);
+      cooldownTimer = null;
+      submitBtn.disabled = false;
+      label.textContent = "Send inquiry";
+      return;
+    }
+    submitBtn.disabled = true;
+    const secs = Math.ceil(ms / 1000);
+    label.textContent = secs > 90
+      ? `Try again in ${Math.ceil(secs / 60)} min`
+      : `Try again in ${secs}s`;
+  }
+
+  function startCooldown() {
+    clearInterval(cooldownTimer);
+    cooldownTimer = null;
+    paintCooldown();
+    if (waitRemaining() > 0) cooldownTimer = setInterval(paintCooldown, 1000);
+  }
+
+  startCooldown();   // resume a cooldown that was running before a refresh
+
   const isConfigured =
     (CONFIG.PROVIDER === "formspree" && !CONFIG.ENDPOINT.includes("YOUR_FORM_ID")) ||
     (CONFIG.PROVIDER === "web3forms" && !CONFIG.ACCESS_KEY.startsWith("YOUR-"));
@@ -344,6 +412,19 @@ if (form) {
 
     // Bots fill hidden fields; people don't.
     if (form.elements["_gotcha"].value) return;
+
+    const wait = waitRemaining();
+    if (wait > 0) {
+      const secs = Math.ceil(wait / 1000);
+      setStatus(
+        recentSends().length >= RATE.maxPerWindow
+          ? `That's ${RATE.maxPerWindow} inquiries in a short space of time. Please wait ${Math.ceil(secs / 60)} minutes, or email me directly at ${CONFIG.EMAIL}.`
+          : `That's just been sent. You can send another in ${secs}s.`,
+        "err"
+      );
+      startCooldown();
+      return;
+    }
 
     const results = Object.keys(RULES).map(validateField);
     if (results.includes(false)) {
@@ -373,8 +454,9 @@ if (form) {
     try {
       await postToProvider(data);
       form.reset();
+      recordSend();
       setStatus(
-        `Thank you. Your enquiry for ${prettyDate(data.date)} is on its way — I'll reply within two working days.`,
+        `Thank you. Your inquiry for ${prettyDate(data.date)} is on its way — I'll reply within two working days.`,
         "ok"
       );
     } catch (err) {
@@ -382,6 +464,7 @@ if (form) {
       setStatus(`Something went wrong sending that. Please try again, or email me directly at ${CONFIG.EMAIL}.`, "err");
     } finally {
       sending(false);
+      startCooldown();   // no-op unless the send succeeded
     }
   });
 }

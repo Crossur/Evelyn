@@ -34,11 +34,14 @@
   --wrap:      1080px;
   --gutter:    20px;
   --font:      "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  color-scheme: light;
 }
 
 /* Dark: ink black → graphite */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --paper:     #0b0b0c;
     --paper-2:   #121214;
     --paper-3:   #191a1c;
@@ -60,6 +63,7 @@
   }
 }
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --paper:     #0b0b0c;
   --paper-2:   #121214;
   --paper-3:   #191a1c;
@@ -79,6 +83,8 @@
   --shadow-md: 0 8px 24px rgba(0,0,0,.55);
   --shadow-lg: 0 24px 60px rgba(0,0,0,.7);
 }
+
+:root[data-theme="light"] { color-scheme: light; }
 
 /* ---------- base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -470,13 +476,11 @@ main { min-height: 62vh; }
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='11' height='7'><path d='M1 1l4.5 4.5L10 1' fill='none' stroke='%238a8a92' stroke-width='1.4' stroke-linecap='round'/></svg>");
   background-repeat: no-repeat; background-position: right .2rem center;
 }
-.contact-form input[type="date"] { min-height: 42px; }
-/* keep the native date picker icon legible in dark mode */
-:root[data-theme="dark"] .contact-form input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .6; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .contact-form input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .6; }
+.contact-form select option {
+  background-color: var(--paper);
+  color: var(--ink);
 }
-
+.contact-form input[type="date"] { min-height: 42px; }
 .field.has-error input, .field.has-error select, .field.has-error textarea { border-bottom-color: var(--ink); border-bottom-width: 1.5px; }
 .field.has-error label { color: var(--ink); }
 .error { margin: 0; font-size: .78rem; color: var(--ink); }
