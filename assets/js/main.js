@@ -28,8 +28,8 @@
      has to press send themselves.
 */
 const CONFIG = {
-  PROVIDER:   "mailto",                              // "formspree" | "web3forms" | "mailto"
-  ENDPOINT:   "https://formspree.io/f/YOUR_FORM_ID", // Formspree only
+  PROVIDER:   "formspree",                           // "formspree" | "web3forms" | "mailto"
+  ENDPOINT:   "https://formspree.io/f/mgavaygo",     // Formspree only
   ACCESS_KEY: "YOUR-WEB3FORMS-ACCESS-KEY",           // Web3Forms only
   EMAIL:      "rinawydmgmt@gmail.com",               // your inbox
   SUBJECT:    "New collaboration enquiry from your website"
@@ -303,7 +303,11 @@ if (form) {
       const res = await fetch(CONFIG.ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...data, _subject: `${CONFIG.SUBJECT} — ${data.restaurant}` })
+        body: JSON.stringify({
+          ...data,
+          _subject: `${CONFIG.SUBJECT} — ${data.restaurant}`,
+          _replyto: data.email          // hitting Reply answers the restaurant
+        })
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));

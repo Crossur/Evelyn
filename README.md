@@ -53,45 +53,47 @@ python3 -m http.server 8000
 
 ---
 
-## 2. Make the contact form send email
+## 2. The contact form
 
-The form is frontend-only, so it hands the message to a free third-party service.
-Open [`assets/js/main.js`](assets/js/main.js) and edit the `CONFIG` block at the top.
+The form is frontend-only — there is no server. It posts straight to Formspree
+over AJAX, so the visitor never leaves the page.
 
-### Option A — Formspree (recommended)
+**It is already connected** to form `mgavaygo`. The settings live in the
+`CONFIG` block at the top of [`assets/js/main.js`](assets/js/main.js):
 
-1. Sign up at <https://formspree.io> (free tier: 50 submissions/month).
-2. Create a form; it gives you an endpoint like `https://formspree.io/f/xdorwkab`.
-3. Edit `CONFIG`:
-   ```js
-   PROVIDER: "formspree",
-   ENDPOINT: "https://formspree.io/f/xdorwkab",
-   EMAIL:    "your-real@email.com",
-   ```
-4. Submit the form once yourself — Formspree emails you to confirm the address.
+```js
+PROVIDER: "formspree",
+ENDPOINT: "https://formspree.io/f/mgavaygo",
+EMAIL:    "rinawydmgmt@gmail.com",   // shown on the page, and the fallback inbox
+```
 
-### Option B — Web3Forms (no account)
+Each submission arrives with the restaurant name, service, desired date, email,
+phone and optional message, a subject line naming the restaurant, and
+`Reply-To` set to the sender — so hitting **Reply** in Gmail answers the
+restaurant directly.
 
-1. Enter your email at <https://web3forms.com>; they send you an access key.
-2. Edit `CONFIG`:
-   ```js
-   PROVIDER:   "web3forms",
-   ACCESS_KEY: "the-uuid-they-emailed-you",
-   EMAIL:      "your-real@email.com",
-   ```
+Things worth knowing:
 
-### Option C — leave it alone
+- **The free tier is 50 submissions a month.** Formspree emails you when you
+  approach it. Past that, submissions are held rather than delivered.
+- **Formspree asks you to confirm the form the first time it receives a
+  submission.** Send one test enquiry through the live site and click the
+  confirmation link, or real enquiries may sit unconfirmed.
+- **Spam.** The form has a hidden honeypot field that silently drops bots
+  before anything is sent. Formspree has its own filtering on top.
+- **The endpoint is public**, visible in the JavaScript. That is normal and
+  safe — it is submit-only and cannot read your submissions.
 
-`PROVIDER` ships as `"mailto"`. The form still validates everything, then opens
-the visitor's email app with all five fields filled in and addressed to
-`CONFIG.EMAIL`. Nothing to sign up for, but the visitor has to press send
-themselves — so A or B converts better.
+If the network call fails, the form keeps what the visitor typed, shows an
+error, and points them at `rinawydmgmt@gmail.com` so the enquiry is not lost.
 
-> These keys are public by design; they sit in your JavaScript. That's fine —
-> they're submit-only. The form also has a hidden honeypot that silently drops
-> bot submissions.
+### Switching providers
 
----
+`PROVIDER` accepts three values. `"formspree"` is live. `"web3forms"` uses
+`ACCESS_KEY` instead of `ENDPOINT`. `"mailto"` needs no account at all — it
+opens the visitor's email app pre-filled and addressed to `EMAIL`, which always
+works but relies on them pressing send. The code for all three is already
+written; only `CONFIG` changes.
 
 ## 3. Swap in your own content
 
